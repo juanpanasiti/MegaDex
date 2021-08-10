@@ -1,17 +1,24 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { usePokeAPI } from '../hooks/usePokeAPI';
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+import { MainState } from '../interfaces/reduxInterfaces';
+import { PokedexItem } from '../interfaces/pokemonInterfaces';
+import PokemonItemList from '../components/pokedex/PokemonItemList';
 
 const PokedexScreen = () => {
-    const { isLoading, data } = usePokeAPI('https://pokeapi.co/api/v2/pokemon')
-    console.log(data)
+    const pokedex = useSelector<MainState, PokedexItem[]>(state => state.pokedex)
+    
     return (
         <View>
-            <Text>Pokedex</Text>
-            <Text>{isLoading ? 'cargando..' : JSON.stringify(data, null, 5)}</Text>
+            <FlatList 
+                data={pokedex}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={ pkmn => `${pkmn.id}`}
+                renderItem={({item}) => <PokemonItemList pkmn={item} />}
 
+            />
         </View>
-    )
-}
+    );
+};
 
-export default PokedexScreen
+export default PokedexScreen;

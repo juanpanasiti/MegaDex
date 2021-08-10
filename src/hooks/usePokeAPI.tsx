@@ -14,7 +14,7 @@ export const usePokeAPI = <T,>(url: string) => {
             setData(response.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            console.info(error);
             showToast('Ups! Algo malió sal en usePokeAPI()');
         }
     };
